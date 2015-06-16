@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import Group
-from django.contrib.auth.decorators import permission_required, user_passes_test
+from django.contrib.auth.decorators import user_passes_test
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
@@ -9,6 +9,7 @@ from django.views.decorators.vary import vary_on_headers
 from wagtail.wagtailadmin import messages
 from wagtail.wagtailadmin.forms import SearchForm
 from wagtail.wagtailusers.forms import GroupForm, GroupPagePermissionFormSet
+from wagtail.decorators import permission_required
 
 
 def user_has_group_model_perm(user):

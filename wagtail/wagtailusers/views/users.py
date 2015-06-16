@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import Q
@@ -11,6 +10,7 @@ from wagtail.wagtailadmin import messages
 from wagtail.wagtailadmin.forms import SearchForm
 from wagtail.wagtailusers.forms import UserCreationForm, UserEditForm
 from wagtail.wagtailcore.compat import AUTH_USER_APP_LABEL, AUTH_USER_MODEL_NAME
+from wagtail.decorators import permission_required
 
 User = get_user_model()
 
@@ -20,7 +20,7 @@ User = get_user_model()
 change_user_perm = "{0}.change_{1}".format(AUTH_USER_APP_LABEL, AUTH_USER_MODEL_NAME.lower())
 
 
-@permission_required(change_user_perm)
+#@permission_required(change_user_perm)
 @vary_on_headers('X-Requested-With')
 def index(request):
     q = None

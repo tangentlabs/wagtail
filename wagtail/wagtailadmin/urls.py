@@ -1,5 +1,4 @@
 from django.conf.urls import url
-from django.contrib.auth.decorators import permission_required
 from django.contrib.auth import views as django_auth_views
 from django.views.decorators.cache import cache_control
 
@@ -7,6 +6,7 @@ from wagtail.wagtailadmin.forms import PasswordResetForm
 from wagtail.wagtailadmin.views import account, chooser, home, pages, tags, userbar, page_privacy
 from wagtail.wagtailcore import hooks
 from wagtail.utils.urlpatterns import decorate_urlpatterns
+from wagtail.decorators import permission_required
 
 
 urlpatterns = [

@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.translation import ugettext as _
 from django.views.decorators.vary import vary_on_headers
@@ -10,6 +9,7 @@ from wagtail.wagtailadmin.forms import SearchForm
 from wagtail.wagtailadmin import messages
 
 from wagtail.wagtailredirects import models
+from wagtail.decorators import permission_required
 
 
 REDIRECT_EDIT_HANDLER = ObjectList(models.Redirect.content_panels).bind_to_model(models.Redirect)
