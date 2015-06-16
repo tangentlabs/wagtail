@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import Group, Permission
 from django.forms.models import inlineformset_factory
+from django.core.exceptions import FieldError
 
 from wagtail.wagtailcore import hooks
 from wagtail.wagtailadmin.widgets import AdminPageChooser
@@ -12,9 +13,8 @@ from wagtail.wagtailcore.models import UserPagePermissionsProxy, GroupPagePermis
 
 User = get_user_model()
 
-# The standard fields each user model is expected to have, as a minimum.
-standard_fields = set(['email', 'first_name', 'last_name', 'is_superuser'])
-additional_fields = set(['groups'])
+# The standard fields each user model is usually expected to have
+standard_fields = set(['email', 'first_name', 'last_name', 'is_superuser', 'groups'])
 
 
 class UsernameForm(forms.ModelForm):
@@ -68,10 +68,18 @@ class UserCreationForm(UsernameForm):
 
     class Meta:
         model = User
-        fields = set([User.USERNAME_FIELD]) | standard_fields
-        #widgets = {
-        #    'groups': forms.CheckboxSelectMultiple
-        #}
+        existing_fields = []
+        for field_name in standard_fields:
+            try:
+                User._meta.get_field_by_name(field_name)
+                existing_fields.append(field_name)
+            except Exception:
+                continue
+        fields = set([User.USERNAME_FIELD]) | set(existing_fields)
+        if 'groups' in existing_fields:
+            widgets = {
+                'groups': forms.CheckboxSelectMultiple
+            }
 
     def clean_username(self):
         username_field = User.USERNAME_FIELD
@@ -140,10 +148,18 @@ class UserEditForm(UsernameForm):
 
     class Meta:
         model = User
-        fields = set([User.USERNAME_FIELD, "is_active"]) | standard_fields
-        #widgets = {
-        #    'groups': forms.CheckboxSelectMultiple
-        #}
+        existing_fields = []
+        for field_name in standard_fields:
+            try:
+                User._meta.get_field_by_name(field_name)
+                existing_fields.append(field_name)
+            except Exception:
+                continue
+        fields = set([User.USERNAME_FIELD]) | set(existing_fields)
+        if 'groups' in existing_fields:
+            widgets = {
+                'groups': forms.CheckboxSelectMultiple
+            }
 
     def clean_username(self):
         # Since User.username is unique, this check is redundant,
