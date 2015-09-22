@@ -21,6 +21,10 @@ def get_snippet_content_types():
     return SNIPPET_CONTENT_TYPES
 
 
+def get_snippet_models():
+    return SNIPPET_MODELS
+
+
 def register_snippet(model):
     if model not in SNIPPET_MODELS:
         model.get_usage = get_object_usage
@@ -32,7 +36,7 @@ def register_snippet(model):
 
 def get_snippet_usage_url(self):
     content_type = ContentType.objects.get_for_model(self)
-    return reverse('wagtailsnippets_usage',
+    return reverse('wagtailsnippets:usage',
                    args=(content_type.app_label,
                          content_type.model,
                          self.id,))

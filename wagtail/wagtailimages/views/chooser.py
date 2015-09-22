@@ -6,6 +6,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from wagtail.wagtailadmin.modal_workflow import render_modal_workflow
 from wagtail.wagtailadmin.forms import SearchForm
+from wagtail.wagtailadmin.utils import permission_required
 from wagtail.wagtailsearch.backends import get_search_backends
 
 from wagtail.wagtailimages.models import get_image_model
@@ -23,7 +24,7 @@ def get_image_json(image):
 
     return json.dumps({
         'id': image.id,
-        'edit_link': reverse('wagtailimages_edit_image', args=(image.id,)),
+        'edit_link': reverse('wagtailimages:edit', args=(image.id,)),
         'title': image.title,
         'preview': {
             'url': preview_image.url,
@@ -51,14 +52,14 @@ def chooser(request):
             # page number
             p = request.GET.get("p", 1)
 
-            images = Image.search(q, results_per_page=10, page=p)
+            images = Image.search(q, results_per_page=12, page=p)
 
             is_searching = True
 
         else:
             images = Image.objects.order_by('-created_at')
             p = request.GET.get("p", 1)
-            paginator = Paginator(images, 10)
+            paginator = Paginator(images, 12)
 
             try:
                 images = paginator.page(p)
@@ -80,7 +81,7 @@ def chooser(request):
 
         images = Image.objects.order_by('-created_at')
         p = request.GET.get("p", 1)
-        paginator = Paginator(images, 10)
+        paginator = Paginator(images, 12)
 
         try:
             images = paginator.page(p)
@@ -166,7 +167,7 @@ def chooser_select_format(request, image_id):
                 'format': format.name,
                 'alt': form.cleaned_data['alt_text'],
                 'class': format.classnames,
-                'edit_link': reverse('wagtailimages_edit_image', args=(image.id,)),
+                'edit_link': reverse('wagtailimages:edit', args=(image.id,)),
                 'preview': {
                     'url': preview_image.url,
                     'width': preview_image.width,

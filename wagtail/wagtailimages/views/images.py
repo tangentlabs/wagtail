@@ -1,4 +1,4 @@
-import json
+import os
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -6,11 +6,12 @@ from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _
 from django.views.decorators.vary import vary_on_headers
 from django.core.urlresolvers import reverse, NoReverseMatch
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from wagtail.wagtailcore.models import Site
 from wagtail.wagtailadmin.forms import SearchForm
 from wagtail.wagtailadmin import messages
+from wagtail.wagtailadmin.utils import permission_required, any_permission_required
 from wagtail.wagtailsearch.backends import get_search_backends
 
 from wagtail.wagtailimages.models import get_image_model, Filter
@@ -20,7 +21,7 @@ from wagtail.wagtailimages.exceptions import InvalidFilterSpecError
 from wagtail.decorators import permission_required
 
 
-@permission_required('wagtailimages.add_image')
+@any_permission_required('wagtailimages.add_image', 'wagtailimages.change_image')
 @vary_on_headers('X-Requested-With')
 def index(request):
     Image = get_image_model()
@@ -96,6 +97,10 @@ def edit(request, image_id):
                 # which definitely isn't what we want...
                 original_file.storage.delete(original_file.name)
                 image.renditions.all().delete()
+
+                # Set new image file size
+                image.file_size = image.file.size
+
             form.save()
 
             # Reindex the image to make sure all tags are indexed
@@ -103,9 +108,9 @@ def edit(request, image_id):
                 backend.add(image)
 
             messages.success(request, _("Image '{0}' updated.").format(image.title), buttons=[
-                messages.button(reverse('wagtailimages_edit_image', args=(image.id,)), _('Edit again'))
+                messages.button(reverse('wagtailimages:edit', args=(image.id,)), _('Edit again'))
             ])
-            return redirect('wagtailimages_index')
+            return redirect('wagtailimages:index')
         else:
             messages.error(request, _("The image could not be saved due to errors."))
     else:
@@ -118,21 +123,18 @@ def edit(request, image_id):
     except NoReverseMatch:
         url_generator_enabled = False
 
-    # Get file size
-    try:
-        filesize = image.file.size
-    except OSError:
-        # File doesn't exist
-        filesize = None
-        messages.error(request, _("The source image file could not be found. Please change the source or delete the image.").format(image.title), buttons=[
-            messages.button(reverse('wagtailimages_delete_image', args=(image.id,)), _('Delete'))
-        ])
+    if image.is_stored_locally():
+        # Give error if image file doesn't exist
+        if not os.path.isfile(image.file.path):
+            messages.error(request, _("The source image file could not be found. Please change the source or delete the image.").format(image.title), buttons=[
+                messages.button(reverse('wagtailimages:delete', args=(image.id,)), _('Delete'))
+            ])
 
     return render(request, "wagtailimages/images/edit.html", {
         'image': image,
         'form': form,
         'url_generator_enabled': url_generator_enabled,
-        'filesize': filesize,
+        'filesize': image.get_file_size(),
     })
 
 
@@ -154,23 +156,19 @@ def url_generator(request, image_id):
     })
 
 
-def json_response(document, status=200):
-    return HttpResponse(json.dumps(document), content_type='application/json', status=status)
-
-
 def generate_url(request, image_id, filter_spec):
     # Get the image
     Image = get_image_model()
     try:
         image = Image.objects.get(id=image_id)
     except Image.DoesNotExist:
-        return json_response({
+        return JsonResponse({
             'error': "Cannot find image."
         }, status=404)
 
     # Check if this user has edit permission on this image
     if not image.is_editable_by_user(request.user):
-        return json_response({
+        return JsonResponse({
             'error': "You do not have permission to generate a URL for this image."
         }, status=403)
 
@@ -178,7 +176,7 @@ def generate_url(request, image_id, filter_spec):
     try:
         Filter(spec=filter_spec).operations
     except InvalidFilterSpecError:
-        return json_response({
+        return JsonResponse({
             'error': "Invalid filter spec."
         }, status=400)
 
@@ -193,9 +191,9 @@ def generate_url(request, image_id, filter_spec):
         site_root_url = Site.objects.first().root_url
 
     # Generate preview url
-    preview_url = reverse('wagtailimages_preview', args=(image_id, filter_spec))
+    preview_url = reverse('wagtailimages:preview', args=(image_id, filter_spec))
 
-    return json_response({'url': site_root_url + url, 'preview_url': preview_url}, status=200)
+    return JsonResponse({'url': site_root_url + url, 'preview_url': preview_url}, status=200)
 
 
 def preview(request, image_id, filter_spec):
@@ -218,7 +216,7 @@ def delete(request, image_id):
     if request.POST:
         image.delete()
         messages.success(request, _("Image '{0}' deleted.").format(image.title))
-        return redirect('wagtailimages_index')
+        return redirect('wagtailimages:index')
 
     return render(request, "wagtailimages/images/confirm_delete.html", {
         'image': image,
@@ -234,6 +232,9 @@ def add(request):
         image = ImageModel(uploaded_by_user=request.user)
         form = ImageForm(request.POST, request.FILES, instance=image)
         if form.is_valid():
+            # Set image file size
+            image.file_size = image.file.size
+
             form.save()
 
             # Reindex the image to make sure all tags are indexed
@@ -241,9 +242,9 @@ def add(request):
                 backend.add(image)
 
             messages.success(request, _("Image '{0}' added.").format(image.title), buttons=[
-                messages.button(reverse('wagtailimages_edit_image', args=(image.id,)), _('Edit'))
+                messages.button(reverse('wagtailimages:edit', args=(image.id,)), _('Edit'))
             ])
-            return redirect('wagtailimages_index')
+            return redirect('wagtailimages:index')
         else:
             messages.error(request, _("The image could not be created due to errors."))
     else:

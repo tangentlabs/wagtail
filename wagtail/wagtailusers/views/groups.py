@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import Group
-from django.contrib.auth.decorators import user_passes_test
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
@@ -8,18 +7,12 @@ from django.views.decorators.vary import vary_on_headers
 
 from wagtail.wagtailadmin import messages
 from wagtail.wagtailadmin.forms import SearchForm
+from wagtail.wagtailadmin.utils import permission_required, any_permission_required
 from wagtail.wagtailusers.forms import GroupForm, GroupPagePermissionFormSet
 from wagtail.decorators import permission_required
 
 
-def user_has_group_model_perm(user):
-    for verb in ['add', 'change', 'delete']:
-        if user.has_perm('auth.%s_group' % verb):
-            return True
-    return False
-
-
-@user_passes_test(user_has_group_model_perm)
+@any_permission_required('auth.add_group', 'auth.change_group', 'auth.delete_group')
 @vary_on_headers('X-Requested-With')
 def index(request):
     q = None
@@ -86,9 +79,9 @@ def create(request):
             formset.instance = group
             formset.save()
             messages.success(request, _("Group '{0}' created.").format(group), buttons=[
-                messages.button(reverse('wagtailusers_groups_edit', args=(group.id,)), _('Edit'))
+                messages.button(reverse('wagtailusers_groups:edit', args=(group.id,)), _('Edit'))
             ])
-            return redirect('wagtailusers_groups_index')
+            return redirect('wagtailusers_groups:index')
         else:
             messages.error(request, _("The group could not be created due to errors."))
     else:
@@ -111,9 +104,9 @@ def edit(request, group_id):
             group = form.save()
             formset.save()
             messages.success(request, _("Group '{0}' updated.").format(group), buttons=[
-                messages.button(reverse('wagtailusers_groups_edit', args=(group.id,)), _('Edit'))
+                messages.button(reverse('wagtailusers_groups:edit', args=(group.id,)), _('Edit'))
             ])
-            return redirect('wagtailusers_groups_index')
+            return redirect('wagtailusers_groups:index')
         else:
             messages.error(request, _("The group could not be saved due to errors."))
     else:
@@ -134,7 +127,7 @@ def delete(request, group_id):
     if request.POST:
         group.delete()
         messages.success(request, _("Group '{0}' deleted.").format(group.name))
-        return redirect('wagtailusers_groups_index')
+        return redirect('wagtailusers_groups:index')
 
     return render(request, "wagtailusers/groups/confirm_delete.html", {
         'group': group,

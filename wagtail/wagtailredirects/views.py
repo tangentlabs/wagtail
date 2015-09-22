@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 
 from wagtail.wagtailadmin.edit_handlers import ObjectList
 from wagtail.wagtailadmin.forms import SearchForm
+from wagtail.wagtailadmin.utils import permission_required, any_permission_required
 from wagtail.wagtailadmin import messages
 
 from wagtail.wagtailredirects import models
@@ -15,7 +16,7 @@ from wagtail.decorators import permission_required
 REDIRECT_EDIT_HANDLER = ObjectList(models.Redirect.content_panels).bind_to_model(models.Redirect)
 
 
-@permission_required('wagtailredirects.change_redirect')
+@any_permission_required('wagtailredirects.add_redirect', 'wagtailredirects.change_redirect', 'wagtailredirects.delete_redirect')
 @vary_on_headers('X-Requested-With')
 def index(request):
     page = request.GET.get('p', 1)
@@ -70,9 +71,9 @@ def edit(request, redirect_id):
         if form.is_valid():
             form.save()
             messages.success(request, _("Redirect '{0}' updated.").format(theredirect.title), buttons=[
-                messages.button(reverse('wagtailredirects_edit_redirect', args=(theredirect.id,)), _('Edit'))
+                messages.button(reverse('wagtailredirects:edit', args=(theredirect.id,)), _('Edit'))
             ])
-            return redirect('wagtailredirects_index')
+            return redirect('wagtailredirects:index')
         else:
             messages.error(request, _("The redirect could not be saved due to errors."))
             edit_handler = REDIRECT_EDIT_HANDLER(instance=theredirect, form=form)
@@ -86,21 +87,21 @@ def edit(request, redirect_id):
     })
 
 
-@permission_required('wagtailredirects.change_redirect')
+@permission_required('wagtailredirects.delete_redirect')
 def delete(request, redirect_id):
     theredirect = get_object_or_404(models.Redirect, id=redirect_id)
 
     if request.POST:
         theredirect.delete()
         messages.success(request, _("Redirect '{0}' deleted.").format(theredirect.title))
-        return redirect('wagtailredirects_index')
+        return redirect('wagtailredirects:index')
 
     return render(request, "wagtailredirects/confirm_delete.html", {
         'redirect': theredirect,
     })
 
 
-@permission_required('wagtailredirects.change_redirect')
+@permission_required('wagtailredirects.add_redirect')
 def add(request):
     theredirect = models.Redirect()
 
@@ -108,14 +109,12 @@ def add(request):
     if request.POST:
         form = form_class(request.POST, request.FILES)
         if form.is_valid():
-            theredirect = form.save(commit=False)
-            theredirect.site = request.site
-            theredirect.save()
+            theredirect = form.save()
 
             messages.success(request, _("Redirect '{0}' added.").format(theredirect.title), buttons=[
-                messages.button(reverse('wagtailredirects_edit_redirect', args=(theredirect.id,)), _('Edit'))
+                messages.button(reverse('wagtailredirects:edit', args=(theredirect.id,)), _('Edit'))
             ])
-            return redirect('wagtailredirects_index')
+            return redirect('wagtailredirects:index')
         else:
             messages.error(request, _("The redirect could not be created due to errors."))
             edit_handler = REDIRECT_EDIT_HANDLER(instance=theredirect, form=form)

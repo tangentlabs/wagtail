@@ -1,6 +1,10 @@
+import json
+
 from django.test import TestCase, override_settings
 from django.core.urlresolvers import reverse
 from django.core import mail
+
+from taggit.models import Tag
 
 from wagtail.tests.utils import WagtailTestUtils
 from wagtail.wagtailcore.models import Page
@@ -44,13 +48,13 @@ class TestEditorHooks(TestCase, WagtailTestUtils):
         self.login()
 
     def test_editor_css_and_js_hooks_on_add(self):
-        response = self.client.get(reverse('wagtailadmin_pages_create', args=('tests', 'simplepage', self.homepage.id)))
+        response = self.client.get(reverse('wagtailadmin_pages:add', args=('tests', 'simplepage', self.homepage.id)))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<link rel="stylesheet" href="/path/to/my/custom.css">')
         self.assertContains(response, '<script src="/path/to/my/custom.js"></script>')
 
     def test_editor_css_and_js_hooks_on_edit(self):
-        response = self.client.get(reverse('wagtailadmin_pages_edit', args=(self.homepage.id, )))
+        response = self.client.get(reverse('wagtailadmin_pages:edit', args=(self.homepage.id, )))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '<link rel="stylesheet" href="/path/to/my/custom.css">')
         self.assertContains(response, '<script src="/path/to/my/custom.js"></script>')
@@ -112,3 +116,51 @@ class TestExplorerNavView(TestCase, WagtailTestUtils):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed('wagtailadmin/shared/explorer_nav.html')
         self.assertEqual(response.context['nodes'][0][0], self.homepage)
+
+
+class TestTagsAutocomplete(TestCase, WagtailTestUtils):
+    def setUp(self):
+        self.login()
+        Tag.objects.create(name="Test", slug="test")
+
+    def test_tags_autocomplete(self):
+        response = self.client.get(reverse('wagtailadmin_tag_autocomplete'), {
+            'term': 'test'
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'application/json')
+        data = json.loads(response.content.decode('utf-8'))
+
+        self.assertEqual(data, ['Test'])
+
+    def test_tags_autocomplete_partial_match(self):
+        response = self.client.get(reverse('wagtailadmin_tag_autocomplete'), {
+            'term': 'te'
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'application/json')
+        data = json.loads(response.content.decode('utf-8'))
+
+        self.assertEqual(data, ['Test'])
+
+    def test_tags_autocomplete_different_term(self):
+        response = self.client.get(reverse('wagtailadmin_tag_autocomplete'), {
+            'term': 'hello'
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'application/json')
+        data = json.loads(response.content.decode('utf-8'))
+
+        self.assertEqual(data, [])
+
+    def test_tags_autocomplete_no_term(self):
+        response = self.client.get(reverse('wagtailadmin_tag_autocomplete'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'application/json')
+        data = json.loads(response.content.decode('utf-8'))
+
+        self.assertEqual(data, [])

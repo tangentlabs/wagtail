@@ -6,6 +6,7 @@ from django.views.decorators.vary import vary_on_headers
 from django.core.urlresolvers import reverse
 
 from wagtail.wagtailadmin.forms import SearchForm
+from wagtail.wagtailadmin.utils import permission_required, any_permission_required
 from wagtail.wagtailsearch.backends import get_search_backends
 from wagtail.wagtailadmin import messages
 
@@ -14,7 +15,7 @@ from wagtail.wagtaildocs.forms import DocumentForm
 from wagtail.decorators import permission_required
 
 
-@permission_required('wagtaildocs.add_document')
+@any_permission_required('wagtaildocs.add_document', 'wagtaildocs.change_document')
 @vary_on_headers('X-Requested-With')
 def index(request):
     # Get documents
@@ -90,9 +91,9 @@ def add(request):
                 backend.add(doc)
 
             messages.success(request, _("Document '{0}' added.").format(doc.title), buttons=[
-                messages.button(reverse('wagtaildocs_edit_document', args=(doc.id,)), _('Edit'))
+                messages.button(reverse('wagtaildocs:edit', args=(doc.id,)), _('Edit'))
             ])
-            return redirect('wagtaildocs_index')
+            return redirect('wagtaildocs:index')
         else:
             messages.error(request, _("The document could not be saved due to errors."))
     else:
@@ -125,9 +126,9 @@ def edit(request, document_id):
                 backend.add(doc)
 
             messages.success(request, _("Document '{0}' updated").format(doc.title), buttons=[
-                messages.button(reverse('wagtaildocs_edit_document', args=(doc.id,)), _('Edit'))
+                messages.button(reverse('wagtaildocs:edit', args=(doc.id,)), _('Edit'))
             ])
-            return redirect('wagtaildocs_index')
+            return redirect('wagtaildocs:index')
         else:
             messages.error(request, _("The document could not be saved due to errors."))
     else:
@@ -145,7 +146,7 @@ def edit(request, document_id):
 
     if not filesize:
         messages.error(request, _("The file could not be found. Please change the source or delete the document"), buttons=[
-            messages.button(reverse('wagtaildocs_delete_document', args=(doc.id,)), _('Delete'))
+            messages.button(reverse('wagtaildocs:delete', args=(doc.id,)), _('Delete'))
         ])
 
     return render(request, "wagtaildocs/documents/edit.html", {
@@ -164,7 +165,7 @@ def delete(request, document_id):
     if request.POST:
         doc.delete()
         messages.success(request, _("Document '{0}' deleted.").format(doc.title))
-        return redirect('wagtaildocs_index')
+        return redirect('wagtaildocs:index')
 
     return render(request, "wagtaildocs/documents/confirm_delete.html", {
         'document': doc,

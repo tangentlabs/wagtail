@@ -43,6 +43,10 @@ class TestImageTag(TestCase):
         self.assertTrue('height="300"' in result)
         self.assertTrue('alt="Test image"' in result)
 
+    def test_image_tag_none(self):
+        result = self.render_image_tag(None, "width-500")
+        self.assertEqual(result, '')
+
     def render_image_tag_as(self, image, filter_spec):
         temp = template.Template('{% load wagtailimages_tags %}{% image image_obj ' + filter_spec + ' as test_img %}<img {{ test_img.attrs }} />')
         context = template.Context({'image_obj': image})
@@ -69,6 +73,16 @@ class TestImageTag(TestCase):
         self.assertTrue('height="300"' in result)
         self.assertTrue('class="photo"' in result)
         self.assertTrue('title="my wonderful title"' in result)
+
+    def render_image_tag_with_filters(self, image):
+        temp = template.Template('{% load wagtailimages_tags %}{% image image_primary|default:image_alternate width-400 %}')
+        context = template.Context({'image_primary': None, 'image_alternate': image})
+        return temp.render(context)
+
+    def test_image_tag_with_filters(self):
+        result = self.render_image_tag_with_filters(self.image)
+        self.assertTrue('width="400"' in result)
+        self.assertTrue('height="300"' in result)
 
 
 class TestMissingImage(TestCase):
@@ -168,6 +182,7 @@ class TestFrontendServeView(TestCase):
 
         # Check response
         self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.streaming)
         self.assertEqual(response['Content-Type'], 'image/png')
 
     def test_get_invalid_signature(self):
@@ -277,13 +292,20 @@ class TestGetImageForm(TestCase, WagtailTestUtils):
 
     def test_custom_image_model_without_admin_form_fields_raises_warning(self):
         self.reset_warning_registry()
-        with warnings.catch_warnings(record=True) as w:
+        with warnings.catch_warnings(record=True) as raw_warnings:
             form = get_image_form(CustomImageWithoutAdminFormFields)
 
             # Check that a RemovedInWagtail12Warning has been triggered
-            self.assertEqual(len(w), 1)
-            self.assertTrue(issubclass(w[-1].category, RemovedInWagtail12Warning))
-            self.assertTrue("Add admin_form_fields = (tuple of field names) to CustomImageWithoutAdminFormFields" in str(w[-1].message))
+
+            # Ignore any ResourceWarnings. TODO: remove this when we've stopped ResourceWarnings from happening...
+            try:
+                clean_warnings = [w for w in raw_warnings if not issubclass(w.category, ResourceWarning)]
+            except NameError:  # ResourceWarning only exists on Python >= 3.2
+                clean_warnings = raw_warnings
+
+            self.assertEqual(len(clean_warnings), 1)
+            self.assertTrue(issubclass(clean_warnings[-1].category, RemovedInWagtail12Warning))
+            self.assertTrue("Add admin_form_fields = (tuple of field names) to CustomImageWithoutAdminFormFields" in str(clean_warnings[-1].message))
 
         # All fields, including the not editable one should be on the form
         self.assertEqual(list(form.base_fields.keys()), [

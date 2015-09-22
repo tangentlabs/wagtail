@@ -1,6 +1,6 @@
-==========================================
-Wagtail 1.0 release notes - IN DEVELOPMENT
-==========================================
+=========================
+Wagtail 1.0 release notes
+=========================
 
 .. contents::
     :local:
@@ -149,6 +149,13 @@ Support for older Django/Python/Elasticsearch versions dropped
 This release drops support for Django 1.6, Python 2.6/3.2 and Elasticsearch 0.90.x. Please make sure these are updated before upgrading.
 
 If you are upgrading from Elasticsearch 0.90.x, you may also need to update the ``elasticsearch`` pip package to a version greater than ``1.0`` as well.
+
+Wagtail version upgrade notifications are enabled by default
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Starting from Wagtail 1.0, the admin dashboard will (for admin users only) perform a check to see if newer releases are available. This also provides the Wagtail team with the hostname of your Wagtail site. If you’d rather not receive update notifications, or if you’d like your site to remain unknown, you can disable it by adding this line to your settings file::
+
+    WAGTAIL_ENABLE_UPDATE_CHECK = False
 
 ``InlinePanel`` definitions no longer need to specify the base model
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -318,3 +325,9 @@ Previously you could customize the Wagtail userbar using the ``construct_wagtail
 The hook has been renamed to ``construct_wagtail_userbar``.
 
 The old hook is now deprecated; all existing ``construct_wagtail_edit_bird`` declarations should be updated to the new hook.
+
+
+``IMAGE_COMPRESSION_QUALITY`` setting has been renamed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``IMAGE_COMPRESSION_QUALITY`` setting, which determines the quality of saved JPEG images as a value from 1 to 100, has been renamed to ``WAGTAILIMAGES_JPEG_QUALITY``. If you have used this setting, please update your settings file accordingly.

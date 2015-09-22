@@ -1,11 +1,11 @@
 from __future__ import unicode_literals
 
-from six import string_types
 import warnings
 
 from django.http import Http404
 from django.core.urlresolvers import RegexURLResolver
 from django.conf.urls import url
+from django.utils.six import string_types
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.url_routing import RouteResult
@@ -137,8 +137,6 @@ class RoutablePage(RoutablePageMixin, Page):
     This class extends Page by adding methods which allows extra routes to be
     added to it.
     """
-
-    is_abstract = True
 
     class Meta:
         abstract = True

@@ -6,11 +6,13 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from wagtail.wagtailadmin.modal_workflow import render_modal_workflow
 from wagtail.wagtailadmin.forms import SearchForm
+from wagtail.wagtailadmin.utils import permission_required
 from wagtail.wagtailsearch.backends import get_search_backends
 
 from wagtail.wagtaildocs.models import Document
 from wagtail.wagtaildocs.forms import DocumentForm
 from wagtail.decorators import permission_required
+
 
 
 def get_document_json(document):
@@ -22,7 +24,7 @@ def get_document_json(document):
     return json.dumps({
         'id': document.id,
         'title': document.title,
-        'edit_link': reverse('wagtaildocs_edit_document', args=(document.id,)),
+        'edit_link': reverse('wagtaildocs:edit', args=(document.id,)),
     })
 
 

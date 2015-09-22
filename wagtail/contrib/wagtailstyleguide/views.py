@@ -10,6 +10,7 @@ from wagtail.wagtaildocs.widgets import AdminDocumentChooser
 from wagtail.decorators import permission_required
 
 
+
 class ExampleForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(ExampleForm, self).__init__(*args, **kwargs)
@@ -38,8 +39,6 @@ class ExampleForm(forms.Form):
     document_chooser = forms.BooleanField(required=True)
 
 
-
-@permission_required('wagtailadmin.access_admin')
 def index(request):
 
     form = SearchForm(placeholder=_("Search something"))

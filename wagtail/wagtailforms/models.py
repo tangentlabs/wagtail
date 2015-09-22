@@ -3,8 +3,6 @@ from __future__ import unicode_literals
 import json
 import re
 
-from six import text_type
-
 from unidecode import unidecode
 
 from django.db import models
@@ -12,6 +10,7 @@ from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
 from django.utils.text import slugify
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.six import text_type
 from django.core.serializers.json import DjangoJSONEncoder
 
 from wagtail.wagtailcore.models import Page, Orderable, UserPagePermissionsProxy, get_page_types
@@ -59,20 +58,25 @@ class FormSubmission(models.Model):
 
 
 class AbstractFormField(Orderable):
-    """Database Fields required for building a Django Form field."""
+    """
+    Database Fields required for building a Django Form field.
+    """
 
-    label = models.CharField(verbose_name=_('Label'),
+    label = models.CharField(
+        verbose_name=_('Label'),
         max_length=255,
         help_text=_('The label of the form field')
     )
     field_type = models.CharField(verbose_name=_('Field type'), max_length=16, choices=FORM_FIELD_CHOICES)
     required = models.BooleanField(verbose_name=_('Required'), default=True)
-    choices = models.CharField(verbose_name=_('Choices'),
+    choices = models.CharField(
+        verbose_name=_('Choices'),
         max_length=512,
         blank=True,
         help_text=_('Comma separated list of choices. Only applicable in checkboxes, radio and dropdown.')
     )
-    default_value = models.CharField(verbose_name=_('Default value'),
+    default_value = models.CharField(
+        verbose_name=_('Default value'),
         max_length=255,
         blank=True,
         help_text=_('Default value. Comma separated values supported for checkboxes.')
@@ -102,6 +106,7 @@ class AbstractFormField(Orderable):
 
 _FORM_CONTENT_TYPES = None
 
+
 def get_form_types():
     global _FORM_CONTENT_TYPES
     if _FORM_CONTENT_TYPES is None:
@@ -113,16 +118,19 @@ def get_form_types():
 
 
 def get_forms_for_user(user):
-    """Return a queryset of form pages that this user is allowed to access the submissions for"""
+    """
+    Return a queryset of form pages that this user is allowed to access the submissions for
+    """
     editable_pages = UserPagePermissionsProxy(user).editable_pages()
     return editable_pages.filter(content_type__in=get_form_types())
 
 
 class AbstractForm(Page):
-    """A Form Page. Pages implementing a form should inhert from it"""
+    """
+    A Form Page. Pages implementing a form should inhert from it
+    """
 
     form_builder = FormBuilder
-    is_abstract = True  # Don't display me in "Add"
 
     def __init__(self, *args, **kwargs):
         super(AbstractForm, self).__init__(*args, **kwargs)
@@ -133,8 +141,19 @@ class AbstractForm(Page):
     class Meta:
         abstract = True
 
+    def get_form_class(self):
+        fb = self.form_builder(self.form_fields.all())
+        return fb.get_form_class()
+
     def get_form_parameters(self):
         return {}
+
+    def get_form(self, *args, **kwargs):
+        form_class = self.get_form_class()
+        form_params = self.get_form_parameters()
+        form_params.update(kwargs)
+
+        return form_class(*args, **form_params)
 
     def process_form_submission(self, form):
         FormSubmission.objects.create(
@@ -143,32 +162,29 @@ class AbstractForm(Page):
         )
 
     def serve(self, request):
-        fb = self.form_builder(self.form_fields.all())
-        form_class = fb.get_form_class()
-        form_params = self.get_form_parameters()
-
         if request.method == 'POST':
-            form = form_class(request.POST, **form_params)
+            form = self.get_form(request.POST)
 
             if form.is_valid():
                 self.process_form_submission(form)
-                # If we have a form_processing_backend call its process method
-                if hasattr(self, 'form_processing_backend'):
-                    form_processor = self.form_processing_backend()
-                    form_processor.process(self, form)
 
                 # render the landing_page
                 # TODO: It is much better to redirect to it
-                return render(request, self.landing_page_template, {
-                    'self': self,
-                })
+                return render(
+                    request,
+                    self.landing_page_template,
+                    self.get_context(request)
+                )
         else:
-            form = form_class(**form_params)
+            form = self.get_form()
 
-        return render(request, self.template, {
-            'self': self,
-            'form': form,
-        })
+        context = self.get_context(request)
+        context['form'] = form
+        return render(
+            request,
+            self.template,
+            context
+        )
 
     preview_modes = [
         ('form', 'Form'),
@@ -177,16 +193,19 @@ class AbstractForm(Page):
 
     def serve_preview(self, request, mode):
         if mode == 'landing':
-            return render(request, self.landing_page_template, {
-                'self': self,
-            })
+            return render(
+                request,
+                self.landing_page_template,
+                self.get_context(request)
+            )
         else:
             return super(AbstractForm, self).serve_preview(request, mode)
 
 
 class AbstractEmailForm(AbstractForm):
-    """A Form Page that sends email. Pages implementing a form to be send to an email should inherit from it"""
-    is_abstract = True  # Don't display me in "Add"
+    """
+    A Form Page that sends email. Pages implementing a form to be send to an email should inherit from it
+    """
 
     to_address = models.CharField(verbose_name=_('To address'), max_length=255, blank=True, help_text=_("Optional - form submissions will be emailed to this address"))
     from_address = models.CharField(verbose_name=_('From address'), max_length=255, blank=True)
@@ -198,7 +217,6 @@ class AbstractEmailForm(AbstractForm):
         if self.to_address:
             content = '\n'.join([x[1].label + ': ' + text_type(form.data.get(x[0])) for x in form.fields.items()])
             send_mail(self.subject, content, [self.to_address], self.from_address,)
-
 
     class Meta:
         abstract = True

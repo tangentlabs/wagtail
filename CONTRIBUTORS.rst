@@ -54,6 +54,19 @@ Contributors
 * Mac Chapman
 * Brett Grace
 * Nar Chhantyal
+* Michael Fillier
+* Mitchel Cabuloy
+* Piet Delport
+* Tom Christie
+* Michael van Tellingen
+* Scot Hacker
+* Kyungil Choi
+* Joss Ingram
+* Christoph Lipp
+* Michael Cordover
+* Timothy Allen
+* Rob Shelton
+
 
 Translators
 ===========
@@ -70,11 +83,14 @@ Translators
 * Finnish: Glen Somerville
 * French: Sylvain Fankhauser, sephii, Adrihein, Bertrand Bordage, Romain Hardouin, linibou, nahuel, Benoît Bar
 * Galician: fooflare, fonso
-* German: Karl Sander, Johannes Spielmann, m0rph3u5, pcraston
+* German: Karl Sander, Johannes Spielmann, m0rph3u5, pcraston, Tammo van Lessen
 * Greek: Serafeim Papastefanos, Jim Dal
-* Italian: Andrea Tagliazucchi, Claudio Bantaloukas
+* Hebrew (Israel): bjesus, Lior Abazon
+* Icelandic: Arnar Tumi Þorsteinsson, saevarom
+* Italian: Andrea Tagliazucchi, Claudio Bantaloukas, Alessio Di Stasio, Giacomo Ghizzani
 * Japanese: Daigo Shitara, Toshikazu Michisu
 * Mongolian: Delgermurun Purevkhuu, miiiga
+* Norwegian Bokmål: Eirik Krogstad
 * Polish: Łukasz Bołdys
 * Portuguese (Brazil): Gilson Filho, Douglas Miranda, Thiago Cangussu, João Luiz Lorencetti, Gladson Brito, Marcelo J. Both
 * Portuguese (Portugal): Jose Lourenco, Tiago Henriques

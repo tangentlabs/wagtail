@@ -8,19 +8,22 @@ from django.views.decorators.vary import vary_on_headers
 
 from wagtail.wagtailadmin import messages
 from wagtail.wagtailadmin.forms import SearchForm
+from wagtail.wagtailadmin.utils import permission_required, any_permission_required
 from wagtail.wagtailusers.forms import UserCreationForm, UserEditForm
 from wagtail.wagtailcore.compat import AUTH_USER_APP_LABEL, AUTH_USER_MODEL_NAME
 from wagtail.decorators import permission_required
 
 User = get_user_model()
 
-# Typically we would check the permission 'auth.change_user' for user
-# management actions, but this may vary according to the AUTH_USER_MODEL
-# setting
+# Typically we would check the permission 'auth.change_user' (and 'auth.add_user' /
+# 'auth.delete_user') for user management actions, but this may vary according to
+# the AUTH_USER_MODEL setting
+add_user_perm = "{0}.add_{1}".format(AUTH_USER_APP_LABEL, AUTH_USER_MODEL_NAME.lower())
 change_user_perm = "{0}.change_{1}".format(AUTH_USER_APP_LABEL, AUTH_USER_MODEL_NAME.lower())
+delete_user_perm = "{0}.delete_{1}".format(AUTH_USER_APP_LABEL, AUTH_USER_MODEL_NAME.lower())
 
 
-#@permission_required(change_user_perm)
+@any_permission_required(add_user_perm, change_user_perm, delete_user_perm)
 @vary_on_headers('X-Requested-With')
 def index(request):
     q = None
@@ -81,16 +84,16 @@ def index(request):
         })
 
 
-@permission_required(change_user_perm)
+@permission_required(add_user_perm)
 def create(request):
     if request.POST:
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             messages.success(request, _("User '{0}' created.").format(user), buttons=[
-                messages.button(reverse('wagtailusers_users_edit', args=(user.id,)), _('Edit'))
+                messages.button(reverse('wagtailusers_users:edit', args=(user.id,)), _('Edit'))
             ])
-            return redirect('wagtailusers_users_index')
+            return redirect('wagtailusers_users:index')
         else:
             messages.error(request, _("The user could not be created due to errors."))
     else:
@@ -109,9 +112,9 @@ def edit(request, user_id):
         if form.is_valid():
             user = form.save()
             messages.success(request, _("User '{0}' updated.").format(user), buttons=[
-                messages.button(reverse('wagtailusers_users_edit', args=(user.id,)), _('Edit'))
+                messages.button(reverse('wagtailusers_users:edit', args=(user.id,)), _('Edit'))
             ])
-            return redirect('wagtailusers_users_index')
+            return redirect('wagtailusers_users:index')
         else:
             messages.error(request, _("The user could not be saved due to errors."))
     else:

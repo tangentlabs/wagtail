@@ -146,7 +146,7 @@ Wagtail can assign the image data to another variable using Django's ``as`` synt
     {% image self.photo width-400 as tmp_photo %}
 
     <img src="{{ tmp_photo.url }}" width="{{ tmp_photo.width }}" 
-        height="{{ tmp_photo.height }}" alt="{{ tmp_photo.alt }}" class="my-custom-class" />
+        height="{{ tmp_photo.height }}" alt="{{ self.photo.title }}" class="my-custom-class" />
         
 
 This syntax exposes the underlying image "Rendition" (``tmp_photo``) to the developer. A "Rendition" contains just the information specific to the way you've requested to format the image i.e dimensions and source URL.
@@ -170,3 +170,30 @@ You can also use the ``attrs`` property as a shorthand to output the attributes 
 .. code-block:: django
 
     <img {{ tmp_photo.attrs }} class="my-custom-class" />
+
+
+Images embedded in rich text
+----------------------------
+
+The information above relates to images defined via image-specific fields in your model, but images can also be embedded arbitrarily in Rich Text fields by the editor (see :ref:`rich-text`).
+
+Images embedded in Rich Text fields can't be controlled by the template developer as easily. There are no image objects to work with, so the ``{% image %}`` template tag can't be used. Instead editors can choose from one of a number of image "Formats" at the point of inserting images into their text.
+
+Wagtail comes with three pre-defined image formats, but more can be defined in Python by the developer. These formats are:
+
+.. glossary::
+
+    ``Full width``
+        Creates an image tag using the filter ``width-800`` and given the CSS class ``full-width``
+
+    ``Left-aligned``
+        Creates an image tag with the filter ``width-500`` and given the CSS class ``left``
+
+    ``Right-aligned``
+        Creates an image tag with the filter ``width-500`` and given the CSS class ``right``
+
+.. Note::
+
+    The CSS classes added to images do **not** come with any accompanying stylesheets, or inline styles. e.g the ``left`` class will do nothing, by default. The developer is expected to add these classes to their front end CSS files, to define what exactly ``left``, ``right`` or ``full-width`` means *to them*.
+
+For more information about image formats, including creating your own, see :ref:`rich_text_image_formats`

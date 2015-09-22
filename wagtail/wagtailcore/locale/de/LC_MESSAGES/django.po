@@ -3,16 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Translators:
+# Florian <flori@vorlif.org>, 2015
 # Johannes Spielmann <j@spielmannsolutions.com>, 2014
+# Tammo van Lessen <tvanlessen@gmail.com>, 2015
 # Wasilis Mandratzis-Walz, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: Wagtail\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-21 09:38+0100\n"
-"PO-Revision-Date: 2015-04-21 08:40+0000\n"
+"POT-Creation-Date: 2015-09-02 20:07+0100\n"
+"PO-Revision-Date: 2015-09-02 19:12+0000\n"
 "Last-Translator: Karl Hobley <karl@torchbox.com>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/wagtail/language/"
+"Language-Team: German (http://www.transifex.com/torchbox/wagtail/language/"
 "de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,6 +74,21 @@ msgstr ""
 "Der Name der Seite, wie er in URLs angezeigt werden soll, z.B. http://domain."
 "com/blog/[my-slug]/"
 
+msgid "Content type"
+msgstr "Inhaltstyp"
+
+msgid "Live"
+msgstr "Veröffentlicht"
+
+msgid "Has unpublished changes"
+msgstr "Hat unveröffentlichte Änderungen"
+
+msgid "URL path"
+msgstr "URL Pfad"
+
+msgid "Owner"
+msgstr "Eigner"
+
 msgid "Page title"
 msgstr "Seitentitel"
 
@@ -97,10 +114,22 @@ msgid "Go live date/time"
 msgstr "Veröffentlichungszeitpunkt"
 
 msgid "Please add a date-time in the form YYYY-MM-DD hh:mm."
-msgstr "Bitte geben ein Datum im Format JJJJ-MM-DD hh:mm:ss ei."
+msgstr "Bitte geben ein Datum im Format JJJJ-MM-DD hh:mm:ss ein."
 
 msgid "Expiry date/time"
 msgstr "Verfallszeitpunkt"
+
+msgid "Expired"
+msgstr "Abgelaufen"
+
+msgid "Locked"
+msgstr "Gesperrt"
+
+msgid "First published at"
+msgstr "Zuerst publiziert am"
+
+msgid "Latest revision created at"
+msgstr "Neuste Revision erstellt am"
 
 msgid "expired"
 msgstr "abgelaufen"
@@ -123,11 +152,23 @@ msgstr "Standard"
 msgid "Page"
 msgstr "Seite"
 
+msgid "Submitted for moderation"
+msgstr "Zur Freischaltung eingereicht"
+
+msgid "Created at"
+msgstr "Erstellt am"
+
+msgid "User"
+msgstr "Benutzer"
+
+msgid "Content JSON"
+msgstr "JSON Inhalt"
+
+msgid "Approved go live at"
+msgstr "Freigegeben zur Veröffentlichung am"
+
 msgid "Add/edit pages you own"
 msgstr "Bearbeiten/Hinzufügen von Seiten, die Sie besitzen"
-
-msgid "Add/edit any page"
-msgstr "Hinzufügen/jede Seite bearbeiten"
 
 msgid "Publish any page"
 msgstr "Jede Seite veröffentlichen"

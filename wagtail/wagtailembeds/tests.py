@@ -1,11 +1,6 @@
-import six.moves.urllib.request
-from six.moves.urllib.error import URLError
-
-from mock import patch
 import unittest
+from mock import patch
 from bs4 import BeautifulSoup
-
-from wagtail.wagtailembeds.rich_text import MediaEmbedHandler
 
 try:
     import embedly  # noqa
@@ -13,12 +8,16 @@ try:
 except ImportError:
     no_embedly = True
 
+import django.utils.six.moves.urllib.request
 from django import template
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.utils.six.moves.urllib.error import URLError
 
+from wagtail.wagtailcore import blocks
 from wagtail.tests.utils import WagtailTestUtils
 
+from wagtail.wagtailembeds.rich_text import MediaEmbedHandler
 from wagtail.wagtailembeds.embeds import (
     EmbedNotFoundException,
     EmbedlyException,
@@ -27,7 +26,6 @@ from wagtail.wagtailembeds.embeds import (
     embedly as wagtail_embedly,
     oembed as wagtail_oembed,
 )
-from wagtail.wagtailcore import blocks
 from wagtail.wagtailembeds.templatetags.wagtailembeds_tags import embed as embed_filter
 from wagtail.wagtailembeds.blocks import EmbedBlock, EmbedValue
 from wagtail.wagtailembeds.models import Embed
@@ -229,11 +227,11 @@ class TestOembed(TestCase):
 
     def test_oembed_invalid_request(self):
         config = {'side_effect': URLError('foo')}
-        with patch.object(six.moves.urllib.request, 'urlopen', **config):
+        with patch.object(django.utils.six.moves.urllib.request, 'urlopen', **config):
             self.assertRaises(EmbedNotFoundException, wagtail_oembed,
                               "http://www.youtube.com/watch/")
 
-    @patch('six.moves.urllib.request.urlopen')
+    @patch('django.utils.six.moves.urllib.request.urlopen')
     @patch('json.loads')
     def test_oembed_photo_request(self, loads, urlopen):
         urlopen.return_value = self.dummy_response
@@ -244,7 +242,7 @@ class TestOembed(TestCase):
         self.assertEqual(result['html'], '<img src="http://www.example.com" />')
         loads.assert_called_with("foo")
 
-    @patch('six.moves.urllib.request.urlopen')
+    @patch('django.utils.six.moves.urllib.request.urlopen')
     @patch('json.loads')
     def test_oembed_return_values(self, loads, urlopen):
         urlopen.return_value = self.dummy_response
@@ -435,9 +433,7 @@ class TestEmbedBlock(TestCase):
 
 class TestMediaEmbedHandler(TestCase):
     def test_get_db_attributes(self):
-        soup = BeautifulSoup(
-            '<b data-url="test-url">foo</b>'
-        )
+        soup = BeautifulSoup('<b data-url="test-url">foo</b>', 'html5lib')
         tag = soup.b
         result = MediaEmbedHandler.get_db_attributes(tag)
         self.assertEqual(result,

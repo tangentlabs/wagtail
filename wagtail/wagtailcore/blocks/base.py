@@ -8,13 +8,12 @@ from importlib import import_module
 
 from django.core import checks
 from django.core.exceptions import ImproperlyConfigured
+from django.utils import six
 from django.utils.safestring import mark_safe
 from django.utils.text import capfirst
 from django.utils.encoding import force_text
 from django.template.loader import render_to_string
 from django import forms
-
-import six
 
 
 __all__ = ['BaseBlock', 'Block', 'BoundBlock', 'DeclarativeSubBlocksMetaclass', 'BlockWidget', 'BlockField']
@@ -41,6 +40,8 @@ class BaseBlock(type):
 class Block(six.with_metaclass(BaseBlock, object)):
     name = ''
     creation_counter = 0
+
+    TEMPLATE_VAR = 'value'
 
     class Meta:
         label = None
@@ -207,7 +208,10 @@ class Block(six.with_metaclass(BaseBlock, object)):
         """
         template = getattr(self.meta, 'template', None)
         if template:
-            return render_to_string(template, {'self': value})
+            return render_to_string(template, {
+                'self': value,
+                self.TEMPLATE_VAR: value,
+            })
         else:
             return self.render_basic(value)
 
