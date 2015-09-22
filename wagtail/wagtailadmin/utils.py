@@ -73,6 +73,41 @@ def permission_denied(request):
     messages.error(request, _('Sorry, you do not have permission to access this area.'))
     return redirect('wagtailadmin_home')
 
+# These checkers have been broken out of the decorators as users need to be able to
+# implement their own non-django permissions structures
+def _wagtail_permission_check(permission_name, request, view_func):
+    if request.user.has_perm(permission_name):
+        # permission check succeeds; run the view function as normal
+        return view_func(request, *args, **kwargs)
+    else:
+        # permission check failed
+        return permission_denied(request)
+
+
+def _wagtail_any_permission_check(perms, request, view_func):
+    for perm in perms:
+        if request.user.has_perm(perm):
+            # permission check succeeds; run the view function as normal
+            return view_func(request, *args, **kwargs)
+ 
+    # if we get here, none of the permission checks have passed
+    return permission_denied(request)
+
+
+# Allow applications to have their own permissions implementations
+try:
+    module = importlib.import_module(settings.WAGTAIL_PERMISSIONS_DECORATOR[0])
+    permission_required = getattr(module, settings.WAGTAIL_PERMISSIONS_DECORATOR[1])
+except (IndexError, ImportError, AttributeError) as err:
+    _permission_check = _wagtail_permission_check
+
+
+try:
+    module = importlib.import_module(settings.WAGTAIL_ANY_PERMISSIONS_DECORATOR[0])
+    permission_required = getattr(module, settings.WAGTAIL_ANY_PERMISSIONS_DECORATOR[1])
+except (IndexError, ImportError, AttributeError) as err:
+    _any_permission_check = _wagtail_any_permission_check
+
 
 def wagtail_permission_required(permission_name):
     """
@@ -88,12 +123,7 @@ def wagtail_permission_required(permission_name):
 
         @wraps(view_func)
         def wrapped_view_func(request, *args, **kwargs):
-            if request.user.has_perm(permission_name):
-                # permission check succeeds; run the view function as normal
-                return view_func(request, *args, **kwargs)
-            else:
-                # permission check failed
-                return permission_denied(request)
+            return _permission_check(permission_name, request, view_func)
 
         return wrapped_view_func
 
@@ -113,13 +143,7 @@ def wagtail_any_permission_required(*perms):
 
         @wraps(view_func)
         def wrapped_view_func(request, *args, **kwargs):
-            for perm in perms:
-                if request.user.has_perm(perm):
-                    # permission check succeeds; run the view function as normal
-                    return view_func(request, *args, **kwargs)
-
-            # if we get here, none of the permission checks have passed
-            return permission_denied(request)
+            return _any_permission_check(perms, request, view_func)
 
         return wrapped_view_func
 
@@ -171,35 +195,4 @@ def send_notification(page_revision_id, notification, excluded_user_id):
     # Send email
     send_mail(email_subject, email_content, email_addresses)
 
-
-# Allow applications to have their own permissions implementations
-try:
-    module = importlib.import_module(settings.WAGTAIL_PERMISSIONS_DECORATOR[0])
-    permission_required = getattr(module, settings.WAGTAIL_PERMISSIONS_DECORATOR[1])
-except (IndexError, ImportError, AttributeError) as err:
-    permission_required = wagtail_permission_required
-
-
-try:
-    module = importlib.import_module(settings.WAGTAIL_ANY_PERMISSIONS_DECORATOR[0])
-    permission_required = getattr(module, settings.WAGTAIL_ANY_PERMISSIONS_DECORATOR[1])
-except (IndexError, ImportError, AttributeError) as err:
-    any_permission_required = wagtail_any_permission_required
-
-
-# A simple example of an overridden permission decorator would be
-#
-#def _cms_permission_test(test_func, login_url=None, **kwargs):
-#    def decorator(view_func):
-#        @wraps(view_func)
-#        def _wrapped_view(request, *args, **kwargs):
-#            return view_func(request, *args, **kwargs)
-#        return _wrapped_view
-#    return decorator
-#
-#
-#def cms_permissions(perm, login_url=None, raise_exception=False):
-#    def _test_func(request, *args, **kwargs):
-#        return True
-#    return _cms_permission_test(_test_func, login_url=login_url)
 
