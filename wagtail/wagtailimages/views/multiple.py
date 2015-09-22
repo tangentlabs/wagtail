@@ -13,7 +13,6 @@ from wagtail.wagtailimages.models import get_image_model
 from wagtail.wagtailimages.forms import get_image_form
 from wagtail.wagtailimages.fields import ALLOWED_EXTENSIONS
 from wagtail.utils.compat import render_to_string
-from wagtail.decorators import permission_required
 
 
 def get_image_edit_form(ImageModel):

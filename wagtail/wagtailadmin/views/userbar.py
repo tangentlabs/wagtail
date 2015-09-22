@@ -6,7 +6,7 @@ from wagtail.wagtailadmin.userbar import EditPageItem, AddPageItem, ApproveModer
 from wagtail.wagtailcore import hooks
 from wagtail.wagtailcore.models import Page, PageRevision
 
-from wagtail.decorators import permission_required
+from wagtail.wagtailadmin.utils import permission_required
 from wagtail.utils.deprecation import RemovedInWagtail12Warning
 
 

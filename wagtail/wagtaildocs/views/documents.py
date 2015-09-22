@@ -12,7 +12,6 @@ from wagtail.wagtailadmin import messages
 
 from wagtail.wagtaildocs.models import Document
 from wagtail.wagtaildocs.forms import DocumentForm
-from wagtail.decorators import permission_required
 
 
 @any_permission_required('wagtaildocs.add_document', 'wagtaildocs.change_document')

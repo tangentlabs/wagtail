@@ -10,7 +10,6 @@ from wagtail.wagtailadmin.utils import permission_required, any_permission_requi
 from wagtail.wagtailadmin import messages
 
 from wagtail.wagtailredirects import models
-from wagtail.decorators import permission_required
 
 
 REDIRECT_EDIT_HANDLER = ObjectList(models.Redirect.content_panels).bind_to_model(models.Redirect)

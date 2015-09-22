@@ -7,8 +7,6 @@ from wagtail.wagtailadmin.forms import SearchForm
 from wagtail.wagtailadmin.widgets import AdminPageChooser, AdminDateInput, AdminTimeInput, AdminDateTimeInput
 from wagtail.wagtailimages.widgets import AdminImageChooser
 from wagtail.wagtaildocs.widgets import AdminDocumentChooser
-from wagtail.decorators import permission_required
-
 
 
 class ExampleForm(forms.Form):

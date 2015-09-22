@@ -9,7 +9,6 @@ from wagtail.wagtailadmin import messages
 from wagtail.wagtailadmin.forms import SearchForm
 from wagtail.wagtailadmin.utils import permission_required, any_permission_required
 from wagtail.wagtailusers.forms import GroupForm, GroupPagePermissionFormSet
-from wagtail.decorators import permission_required
 
 
 @any_permission_required('auth.add_group', 'auth.change_group', 'auth.delete_group')

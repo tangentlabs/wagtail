@@ -11,8 +11,6 @@ from wagtail.wagtailsearch.backends import get_search_backends
 
 from wagtail.wagtaildocs.models import Document
 from wagtail.wagtaildocs.forms import DocumentForm
-from wagtail.decorators import permission_required
-
 
 
 def get_document_json(document):

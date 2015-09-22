@@ -12,7 +12,6 @@ from wagtail.wagtailsearch.backends import get_search_backends
 from wagtail.wagtailimages.models import get_image_model
 from wagtail.wagtailimages.forms import get_image_form, ImageInsertionForm
 from wagtail.wagtailimages.formats import get_image_format
-from wagtail.decorators import permission_required
 
 
 def get_image_json(image):

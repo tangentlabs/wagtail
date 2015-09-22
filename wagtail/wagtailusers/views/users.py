@@ -11,7 +11,6 @@ from wagtail.wagtailadmin.forms import SearchForm
 from wagtail.wagtailadmin.utils import permission_required, any_permission_required
 from wagtail.wagtailusers.forms import UserCreationForm, UserEditForm
 from wagtail.wagtailcore.compat import AUTH_USER_APP_LABEL, AUTH_USER_MODEL_NAME
-from wagtail.decorators import permission_required
 
 User = get_user_model()
 

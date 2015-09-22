@@ -18,7 +18,6 @@ from wagtail.wagtailimages.models import get_image_model, Filter
 from wagtail.wagtailimages.forms import get_image_form, URLGeneratorForm
 from wagtail.wagtailimages.utils import generate_signature
 from wagtail.wagtailimages.exceptions import InvalidFilterSpecError
-from wagtail.decorators import permission_required
 
 
 @any_permission_required('wagtailimages.add_image', 'wagtailimages.change_image')
