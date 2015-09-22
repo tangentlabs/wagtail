@@ -1,5 +1,4 @@
 from django.conf.urls import url, include
-from django.contrib.auth.decorators import permission_required
 from django.views.decorators.cache import cache_control
 
 from wagtail.wagtailadmin.urls import pages as wagtailadmin_pages_urls
@@ -7,6 +6,7 @@ from wagtail.wagtailadmin.urls import password_reset as wagtailadmin_password_re
 from wagtail.wagtailadmin.views import account, chooser, home, pages, tags, userbar
 from wagtail.wagtailcore import hooks
 from wagtail.utils.urlpatterns import decorate_urlpatterns
+from wagtail.wagtailadmin.utils import permission_required
 
 
 urlpatterns = [

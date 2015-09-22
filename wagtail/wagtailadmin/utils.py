@@ -1,3 +1,4 @@
+import importlib
 from functools import wraps
 
 from django.template.loader import render_to_string
@@ -75,7 +76,7 @@ def permission_denied(request):
 
 # These checkers have been broken out of the decorators as users need to be able to
 # implement their own non-django permissions structures
-def _wagtail_permission_check(permission_name, request, view_func):
+def _wagtail_permission_check(permission_name, request, view_func, *args, **kwargs):
     if request.user.has_perm(permission_name):
         # permission check succeeds; run the view function as normal
         return view_func(request, *args, **kwargs)
@@ -84,7 +85,7 @@ def _wagtail_permission_check(permission_name, request, view_func):
         return permission_denied(request)
 
 
-def _wagtail_any_permission_check(perms, request, view_func):
+def _wagtail_any_permission_check(perms, request, view_func, *args, **kwargs):
     for perm in perms:
         if request.user.has_perm(perm):
             # permission check succeeds; run the view function as normal
@@ -97,19 +98,19 @@ def _wagtail_any_permission_check(perms, request, view_func):
 # Allow applications to have their own permissions implementations
 try:
     module = importlib.import_module(settings.WAGTAIL_PERMISSIONS_DECORATOR[0])
-    permission_required = getattr(module, settings.WAGTAIL_PERMISSIONS_DECORATOR[1])
+    _permission_check = getattr(module, settings.WAGTAIL_PERMISSIONS_DECORATOR[1])
 except (IndexError, ImportError, AttributeError) as err:
     _permission_check = _wagtail_permission_check
 
 
 try:
     module = importlib.import_module(settings.WAGTAIL_ANY_PERMISSIONS_DECORATOR[0])
-    permission_required = getattr(module, settings.WAGTAIL_ANY_PERMISSIONS_DECORATOR[1])
+    _any_permission_check = getattr(module, settings.WAGTAIL_ANY_PERMISSIONS_DECORATOR[1])
 except (IndexError, ImportError, AttributeError) as err:
     _any_permission_check = _wagtail_any_permission_check
 
 
-def wagtail_permission_required(permission_name):
+def permission_required(permission_name, **kwargs):
     """
     Replacement for django.contrib.auth.decorators.permission_required which returns a
     more meaningful 'permission denied' response than just redirecting to the login page.
@@ -123,14 +124,14 @@ def wagtail_permission_required(permission_name):
 
         @wraps(view_func)
         def wrapped_view_func(request, *args, **kwargs):
-            return _permission_check(permission_name, request, view_func)
+            return _permission_check(permission_name, request, view_func, *args, **kwargs)
 
         return wrapped_view_func
 
     return decorator
 
 
-def wagtail_any_permission_required(*perms):
+def any_permission_required(*perms, **kwargs):
     """
     Decorator that accepts a list of permission names, and allows the user
     to pass if they have *any* of the permissions in the list
@@ -143,7 +144,7 @@ def wagtail_any_permission_required(*perms):
 
         @wraps(view_func)
         def wrapped_view_func(request, *args, **kwargs):
-            return _any_permission_check(perms, request, view_func)
+            return _any_permission_check(perms, request, view_func, *args, **kwargs)
 
         return wrapped_view_func
 

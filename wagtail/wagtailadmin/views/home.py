@@ -56,7 +56,6 @@ class RecentEditsPanel(object):
 
 
 def home(request):
-
     panels = [
         SiteSummaryPanel(request),
         UpgradeNotificationPanel(request),
