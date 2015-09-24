@@ -4,10 +4,9 @@
     <div class="field-content">
         <div class="input {{ input_classes }} ">
             {% block form_field %}
-            {% if field %}
-            {{ field|render_with_errors }}
-            {% else %}
-            {% endif %}
+                {% if field %}
+                    {{ field|render_with_errors }}
+                {% endif %}
             {% endblock %}
             
             {# This span only used on rare occasions by certain types of input #}
