@@ -1,0 +1,164 @@
+/* paths */
+/* We can't use absolute paths here, because those are dependent on Django's
+STATIC_URL setting. However, django-compressor consistently places the compiled
+CSS into ${STATIC_URL}/CACHE/css/ regardless of compilation mode, so we can
+reliably use relative paths to get back to STATIC_URL. */
+/* grid settings */
+/* screen breakpoints */
+/* 800px */
+/* 900px */
+/* 1200px */
+/* 1600px */
+/* colours */
+/* darker to lighter */
+/* misc sizing */
+/* line 109, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+  /* line 100, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+  .visuallyhidden:active, .visuallyhidden:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto; }
+
+/* line 122, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+.visuallyvisible {
+  clip: none;
+  height: auto;
+  width: auto;
+  margin: auto;
+  overflow: visible;
+  position: initial; }
+
+/* Utility variable - you should never need to modify this */
+/* Ensure grid columns are set to border-boxes. This is essential */
+/* Our row container */
+/* Our column container */
+/* Push adds left padding */
+/* Pull adds right padding */
+/* only used in places where padding not applied to same elements as row or row-flush
+ * most of the time this class should be applied directly to the html elements */
+/* line 5, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+h1 {
+  font-weight: 300;
+  font-size: 2.2em; }
+
+/* line 10, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+header .col1 {
+  width: 50px;
+  margin-right: 1em;
+  padding: 0; }
+
+/* line 15, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+header h1, header h2 {
+  color: white; }
+
+/* line 18, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+header h2 {
+  text-transform: none; }
+
+/* line 23, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+.panel {
+  margin-bottom: 4em; }
+
+/* line 27, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+.summary {
+  background-color: #fafafa;
+  margin-bottom: 2em;
+  padding-top: 2em;
+  padding-bottom: 2em; }
+  /* line 3, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+  .summary:before,
+  .summary:after {
+    content: " ";
+    display: table; }
+  /* line 7, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+  .summary:after {
+    clear: both; }
+  /* line 34, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+  .summary ul.stats {
+    width: 100%; }
+    /* line 3, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    .summary ul.stats:before,
+    .summary ul.stats:after {
+      content: " ";
+      display: table; }
+    /* line 7, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    .summary ul.stats:after {
+      clear: both; }
+    /* line 13, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    .summary ul.stats, .summary ul.stats ul, .summary ul.stats li {
+      list-style-type: none;
+      font-style: normal; }
+    /* line 17, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    .summary ul.stats, .summary ul.stats ul {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-left: 0; }
+    /* line 39, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+    .summary ul.stats li {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      display: inline;
+      float: left;
+      width: 33.33333%;
+      padding-right: 1.5%;
+      padding-left: 1.5%; }
+      /* line 42, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+      .summary ul.stats li:before {
+        opacity: 0.2;
+        font-size: 6em;
+        float: left; }
+    /* line 49, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+    .summary ul.stats a {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%; }
+    /* line 56, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+    .summary ul.stats span {
+      font-family: Bitter, Georgia, serif;
+      display: block;
+      font-size: 4em;
+      line-height: 1em;
+      font-weight: 300; }
+  /* line 65, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+  .summary .search-bar {
+    border-top: 1px solid #e6e6e6;
+    padding: 1em 0 0 0; }
+    /* line 3, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    .summary .search-bar:before,
+    .summary .search-bar:after {
+      content: " ";
+      display: table; }
+    /* line 7, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    .summary .search-bar:after {
+      clear: both; }
+    /* line 70, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+    .summary .search-bar h2 {
+      display: inline-block;
+      margin-right: 1em; }
+    /* line 74, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+    .summary .search-bar .fields {
+      display: inline-block;
+      clear: none; }
+    /* line 78, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+    .summary .search-bar .field {
+      display: inline-block; }
+    /* line 82, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+    .summary .search-bar label {
+      display: inline-blo; }
+    /* line 85, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/home.scss */
+    .summary .search-bar input {
+      background-color: white; }

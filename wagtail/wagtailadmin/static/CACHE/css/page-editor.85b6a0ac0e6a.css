@@ -1,0 +1,969 @@
+/* paths */
+/* We can't use absolute paths here, because those are dependent on Django's
+STATIC_URL setting. However, django-compressor consistently places the compiled
+CSS into ${STATIC_URL}/CACHE/css/ regardless of compilation mode, so we can
+reliably use relative paths to get back to STATIC_URL. */
+/* grid settings */
+/* screen breakpoints */
+/* 800px */
+/* 900px */
+/* 1200px */
+/* 1600px */
+/* colours */
+/* darker to lighter */
+/* misc sizing */
+/* line 109, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+  /* line 100, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+  .visuallyhidden:active, .visuallyhidden:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto; }
+
+/* line 122, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+.visuallyvisible {
+  clip: none;
+  height: auto;
+  width: auto;
+  margin: auto;
+  overflow: visible;
+  position: initial; }
+
+/* Utility variable - you should never need to modify this */
+/* Ensure grid columns are set to border-boxes. This is essential */
+/* Our row container */
+/* Our column container */
+/* Push adds left padding */
+/* Pull adds right padding */
+/* only used in places where padding not applied to same elements as row or row-flush
+ * most of the time this class should be applied directly to the html elements */
+/* line 1, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+ul.sequence {
+  position: relative; }
+  /* line 3, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+  ul.sequence:before,
+  ul.sequence:after {
+    content: " ";
+    display: table; }
+  /* line 7, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+  ul.sequence:after {
+    clear: both; }
+
+/* line 5, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+li.sequence-member {
+  position: relative;
+  /* The top level sequence doesn't have a sequnce-member-inner. This block is basically for things that should only affect inner blocks */ }
+  /* line 3, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+  li.sequence-member:before,
+  li.sequence-member:after {
+    content: " ";
+    display: table; }
+  /* line 7, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+  li.sequence-member:after {
+    clear: both; }
+  /* line 9, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  li.sequence-member:hover {
+    background-color: #f4fcfc; }
+    /* line 15, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    li.sequence-member:hover .sequence-member-inner > .struct-block > label,
+    li.sequence-member:hover .sequence-member-inner > .char_field > label,
+    li.sequence-member:hover .sequence-member-inner .sequence > label {
+      opacity: 1; }
+  /* line 21, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  li.sequence-member:hover .object-help {
+    opacity: 1; }
+  /* line 26, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  li.sequence-member .struct-block .fields {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline;
+    float: left;
+    width: 83.33333%;
+    padding-right: 1.5%;
+    padding-left: 1.5%;
+    padding-left: 0;
+    padding-right: 0; }
+  /* line 31, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  li.sequence-member .struct-block .sequence-container {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline;
+    float: left;
+    width: 75%;
+    padding-right: 1.5%;
+    padding-left: 1.5%;
+    padding-left: 0;
+    padding-right: 0; }
+    /* line 36, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    li.sequence-member .struct-block .sequence-container .sequence-member-inner {
+      padding: 1.5em 0;
+      padding: 1.5em 0; }
+  /* line 43, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  li.sequence-member .sequence-member-inner {
+    position: relative;
+    padding: 1.5em 50px;
+    /* sequences within sequences, such as a ListBlock within StructBlock*/ }
+    /* line 3, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    li.sequence-member .sequence-member-inner:before,
+    li.sequence-member .sequence-member-inner:after {
+      content: " ";
+      display: table; }
+    /* line 7, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    li.sequence-member .sequence-member-inner:after {
+      clear: both; }
+    /* line 49, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    li.sequence-member .sequence-member-inner > .sequence .sequence-inner {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      display: inline;
+      float: left;
+      width: 83.33333%;
+      padding-right: 1.5%;
+      padding-left: 1.5%;
+      padding-left: 0;
+      padding-right: 0; }
+    /* line 55, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    li.sequence-member .sequence-member-inner .sequence-type-list .sequence-container-inner {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      display: inline;
+      float: left;
+      width: 83.33333%;
+      padding-right: 1.5%;
+      padding-left: 1.5%;
+      padding-left: 0;
+      padding-right: 0; }
+    /* line 60, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    li.sequence-member .sequence-member-inner .sequence-type-list .sequence-member-inner {
+      padding: 0;
+      padding-top: 0.5em;
+      padding-bottom: 1.2em; }
+  /* line 68, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  li.sequence-member .fields > li {
+    position: relative; }
+
+/* Image chooser as direct descendant of top-level streamfield has special display */
+/* line 75, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.sequence-member-inner > .widget-admin_image_chooser label {
+  display: none; }
+
+/* line 78, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.sequence-member-inner > .widget-admin_image_chooser .field-content {
+  display: block;
+  float: none;
+  width: 100%;
+  text-align: center;
+  max-width: 500px;
+  margin: auto;
+  border: 1px solid #e6e6e6;
+  padding: 1em; }
+
+/* line 89, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.sequence-member-inner > .widget-admin_image_chooser .chooser .chosen {
+  padding: 0; }
+
+/* line 93, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.sequence-member-inner > .widget-admin_image_chooser .chooser .unchosen:before {
+  float: none;
+  font-size: 4em;
+  margin: 0; }
+
+/* line 99, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.sequence-member-inner > .widget-admin_image_chooser .chooser .preview-image {
+  float: none;
+  margin: 0; }
+
+/* line 104, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.sequence-member-inner > .widget-admin_image_chooser .actions li {
+  display: inline-block;
+  float: none; }
+
+/*
+This horridly specific selector ensures text inputs, rich text fields and textareas that are direct children of highest level sequence
+should be borderless and full-width
+*/
+/* line 117, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.block_field > .field-content > .input > .sequence-container > .sequence-container-inner > .sequence > .sequence-member > .sequence-member-inner > .widget-text_input input,
+.block_field > .field-content > .input > .sequence-container > .sequence-container-inner > .sequence > .sequence-member > .sequence-member-inner > .widget-rich_text_area .richtext,
+.block_field > .field-content > .input > .sequence-container > .sequence-container-inner > .sequence > .sequence-member > .sequence-member-inner > .widget-textarea textarea {
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  max-width: 1024px; }
+
+/* Controls for ordering and deletion of items in a sequence */
+/* line 126, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.sequence-controls {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  top: -1.5em;
+  right: 1em;
+  z-index: 1;
+  overflow: visible;
+  background-color: #f4fcfc;
+  padding: 0.2rem 1em;
+  /* .buttons only exists for menus in stream_member.html */ }
+  /* line 34, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+  body.ready .sequence-controls {
+    -webkit-transition: opacity 0.2s ease;
+    -moz-transition: opacity 0.2s ease;
+    -o-transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease; }
+  /* line 138, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .sequence-controls h3 {
+    margin: 0;
+    font-size: 0.7rem;
+    display: inline-block;
+    margin-right: 1em;
+    line-height: 1.4rem; }
+    /* line 145, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    .sequence-controls h3 label {
+      font-weight: normal;
+      text-transform: uppercase;
+      float: none;
+      width: auto;
+      padding: 0;
+      margin: 0; }
+  /* line 155, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .sequence-controls button.icon.text-replace {
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    width: 1.4rem;
+    height: 1.4rem; }
+    /* line 160, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    .sequence-controls button.icon.text-replace:before {
+      line-height: 1.3em;
+      font-size: 0.9rem; }
+  /* line 167, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .sequence-controls .buttons {
+    display: inline-block; }
+  /* line 172, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .sequence-controls .buttons,
+  .sequence-controls label {
+    opacity: 0.4; }
+    /* line 34, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    body.ready .sequence-controls .buttons,
+    body.ready .sequence-controls label {
+      -webkit-transition: opacity 0.2s ease;
+      -moz-transition: opacity 0.2s ease;
+      -o-transition: opacity 0.2s ease;
+      transition: opacity 0.2s ease; }
+  /* line 178, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .sequence-controls:hover .buttons,
+  .sequence-controls:hover label {
+    opacity: 1; }
+  /* line 182, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .sequence-controls .disabled {
+    display: none; }
+
+/* list controls are slightly different as they require closer proximity to their associated fields */
+/* line 188, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.list-controls {
+  top: 1.5em; }
+
+/* line 192, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.sequence-type-list .object-help {
+  margin-top: 1.5em !important; }
+
+/* Menu of other blocks to be added at each position */
+/* line 197, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.stream-menu {
+  -webkit-box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.3);
+  position: relative;
+  background-color: #333333;
+  opacity: 1;
+  z-index: 5; }
+  /* line 34, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+  body.ready .stream-menu {
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease; }
+  /* line 205, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .stream-menu .toggle {
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    position: absolute;
+    top: -0.5em;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    cursor: pointer;
+    font-size: 1.7em;
+    width: 1em;
+    height: 1em;
+    display: block;
+    z-index: 5;
+    color: #333333;
+    background-color: white;
+    outline: none; }
+    /* line 34, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    body.ready .stream-menu .toggle {
+      -webkit-transition: color 0.2s ease;
+      -moz-transition: color 0.2s ease;
+      -o-transition: color 0.2s ease;
+      transition: color 0.2s ease; }
+    /* line 223, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    .stream-menu .toggle span {
+      border: 0;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px; }
+      /* line 100, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+      .stream-menu .toggle span:active, .stream-menu .toggle span:focus {
+        clip: auto;
+        height: auto;
+        margin: 0;
+        overflow: visible;
+        position: static;
+        width: auto; }
+    /* line 227, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    .stream-menu .toggle:before {
+      -moz-transform: rotate(-45deg);
+      -webkit-transform: rotate(-45deg);
+      -o-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+      position: absolute;
+      font-family: wagtail;
+      content: "B";
+      line-height: 1em;
+      text-align: center; }
+  /* line 237, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .stream-menu .stream-menu-inner {
+    -moz-transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    max-width: 50em;
+    margin: auto;
+    overflow: hidden; }
+  /* line 244, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .stream-menu ul {
+    -moz-transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -moz-transform: scale(1);
+    -webkit-transform: scale(1);
+    -o-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    visibility: visible;
+    opacity: 1;
+    padding: 1em 1em 0 1em;
+    overflow: hidden; }
+    /* line 34, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    body.ready .stream-menu ul {
+      -webkit-transition: all 0.2s ease;
+      -moz-transition: all 0.2s ease;
+      -o-transition: all 0.2s ease;
+      transition: all 0.2s ease; }
+    /* line 3, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    .stream-menu ul:before,
+    .stream-menu ul:after {
+      content: " ";
+      display: table; }
+    /* line 7, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    .stream-menu ul:after {
+      clear: both; }
+  /* line 255, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .stream-menu li {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline;
+    float: left;
+    width: 25%;
+    padding-right: 1.5%;
+    padding-left: 1.5%;
+    padding-bottom: 3%;
+    padding-left: 0;
+    padding-right: 0; }
+    /* line 261, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    .stream-menu li:nth-child(4n+1) {
+      clear: left; }
+  /* line 267, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .stream-menu button {
+    background-color: transparent;
+    border: 0;
+    color: #cccccc;
+    height: auto;
+    display: block;
+    width: 100%;
+    padding: 0 0 0.5em 0;
+    outline: #43b1b0;
+    overflow: visible; }
+    /* line 34, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+    body.ready .stream-menu button {
+      -webkit-transition: all 0.2s ease;
+      -moz-transition: all 0.2s ease;
+      -o-transition: all 0.2s ease;
+      transition: all 0.2s ease; }
+    /* line 279, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    .stream-menu button span {
+      text-transform: none;
+      white-space: pre-wrap;
+      width: 100%;
+      display: block;
+      overflow: hidden;
+      padding: 0 1em;
+      box-sizing: border-box; }
+    /* line 289, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    .stream-menu button:before {
+      display: block;
+      font-family: wagtail;
+      font-size: 2em;
+      width: 100%;
+      height: 2em;
+      line-height: 2em;
+      text-align: center; }
+    /* line 300, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    .stream-menu button:hover,
+    .stream-menu button:focus {
+      background-color: #43b1b0;
+      color: white; }
+  /* line 306, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .stream-menu.stream-menu-closed {
+    -webkit-box-shadow: none;
+    box-shadow: none; }
+    /* line 309, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    .stream-menu.stream-menu-closed .stream-menu-inner ul {
+      -moz-transform: scale(0.9);
+      -webkit-transform: scale(0.9);
+      -o-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      transform: scale(0.9);
+      opacity: 0; }
+    /* line 314, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    .stream-menu.stream-menu-closed .toggle {
+      color: #d9d9d9;
+      background-color: white; }
+      /* line 317, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+      .stream-menu.stream-menu-closed .toggle:before {
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg); }
+      /* line 320, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+      .stream-menu.stream-menu-closed .toggle:focus {
+        color: #43b1b0; }
+    /* line 325, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    .stream-menu.stream-menu-closed:hover {
+      border-top-color: #43b1b0; }
+      /* line 328, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+      .stream-menu.stream-menu-closed:hover .toggle {
+        color: #43b1b0; }
+  @media screen and (min-width: 50em) {
+    /* line 335, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+    .stream-menu li {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      display: inline;
+      float: left;
+      width: 16.66667%;
+      padding-right: 1.5%;
+      padding-left: 1.5%; }
+      /* line 337, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+      .stream-menu li:nth-child(4n+1) {
+        clear: none; }
+      /* line 340, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+      .stream-menu li:nth-child(6n+1) {
+        clear: left; } }
+
+/* line 346, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.sequence-member .stream-menu {
+  margin: auto auto 0em auto; }
+
+/* line 349, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.sequence-member .stream-menu-closed {
+  opacity: 0;
+  visibility: hidden; }
+
+/* line 354, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.sequence-member:hover .sequence-controls {
+  visibility: visible;
+  opacity: 1; }
+
+/* line 358, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+.sequence-member:hover .stream-menu {
+  visibility: visible;
+  opacity: 1; }
+
+@media screen and (min-width: 50em) {
+  /* line 365, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/components/streamfield.scss */
+  .object li.sequence-member:hover .object-help {
+    opacity: 1; } }
+
+/* line 7, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+.page-editor .content-wrapper {
+  margin-bottom: 10em; }
+
+/* line 10, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+.page-editor .breadcrumb {
+  margin-top: -1.2em;
+  margin-bottom: 2em; }
+
+/* line 14, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+.page-editor .modal .breadcrumb {
+  margin: 0;
+  background-color: transparent; }
+  /* line 18, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .page-editor .modal .breadcrumb a {
+    color: #666666; }
+  /* line 21, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .page-editor .modal .breadcrumb li:hover {
+    background-color: #e6e6e6; }
+  /* line 24, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .page-editor .modal .breadcrumb .home {
+    padding-left: 0; }
+
+/* An object is the basic wrapper around any field or group of fields in the editor interface */
+/* line 31, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+.object {
+  position: relative;
+  overflow: hidden;
+  padding-left: 20px;
+  padding-right: 20px;
+  /* Special full-width, one-off fields i.e a single text or textarea input */
+  /* cursory styling for streamfield. Main styling in components/streamfield.scss */
+  /* special panel for the publishing fields, requires a bit more pizzazz */
+  /* removes top padding from multiples used within another panel */ }
+  @media screen and (min-width: 50em) {
+    /* line 31, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object {
+      padding-left: 50px;
+      padding-right: 50px; } }
+  /* line 36, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object:first-child {
+    border: 0; }
+  /* line 40, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.focused {
+    border-color: #54d0d0; }
+  /* line 44, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object fieldset {
+    padding-top: 4em;
+    padding-left: 0;
+    padding-right: 0; }
+  /* line 50, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object .object-help {
+    display: block;
+    position: relative;
+    z-index: 1;
+    top: 1em;
+    padding-right: 1.5%;
+    margin-top: 4em;
+    opacity: 1;
+    padding-left: 3em; }
+    /* line 60, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object .object-help:before {
+      display: block;
+      float: left;
+      content: "?";
+      border: 1px solid #666666;
+      color: #666666;
+      -webkit-border-radius: 100%;
+      border-radius: 100%;
+      height: 15px;
+      width: 15px;
+      line-height: 15px;
+      text-align: center;
+      font-size: 1.1em;
+      margin-left: -2em;
+      margin-top: 0.3em; }
+  /* line 77, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object:hover .object-help {
+    opacity: 1; }
+  /* line 81, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object > h2 {
+    -webkit-font-smoothing: auto;
+    background: #fcf2f2;
+    text-transform: uppercase;
+    padding: 0.9em 0 0.9em 4.1em;
+    font-size: 0.95em;
+    margin: 0 0 0.2em 0;
+    line-height: 1.5em;
+    font-weight: normal;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    overflow: hidden; }
+    /* line 97, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object > h2 label {
+      display: inline;
+      text-transform: inherit;
+      font-weight: inherit;
+      float: none;
+      width: auto;
+      color: inherit;
+      font-size: inherit; }
+    /* line 107, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object > h2:before, .object > h2 label:before {
+      text-shadow: none;
+      font-family: wagtail;
+      text-transform: none;
+      content: "q";
+      text-align: center;
+      display: block;
+      position: absolute;
+      z-index: 2;
+      font-size: 2em;
+      top: 0px;
+      line-height: 1.8em;
+      left: 0px;
+      width: 1.7em;
+      color: white;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      background-color: #f37e77;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale; }
+  /* line 131, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object .richtext {
+    padding-top: 1em;
+    /* to provide space for editor buttons */
+    padding-bottom: 1em; }
+    /* line 135, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object .richtext.inEditMode {
+      padding-top: 5em;
+      /* to provide space for editor buttons */
+      padding-bottom: 2em; }
+  /* line 142, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.required > h2 label:after {
+    content: "*";
+    color: #cd3238;
+    font-weight: bold;
+    display: inline-block;
+    margin-left: 0.5em;
+    line-height: 1em;
+    font-size: 13px; }
+  /* line 155, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.full .object-help {
+    display: block; }
+  /* line 159, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.full fieldset {
+    display: block;
+    float: none; }
+  /* line 163, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.full li {
+    padding: 0; }
+  /* line 167, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.full .richtext {
+    padding-top: 3em;
+    /* to provide space for editor buttons */
+    padding-bottom: 3em; }
+    /* line 171, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object.full .richtext.inEditMode {
+      padding-top: 5em;
+      /* to provide space for editor buttons */
+      padding-bottom: 5em; }
+  /* line 177, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.full .error-message {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 2em; }
+    @media screen and (min-width: 50em) {
+      /* line 177, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+      .object.full .error-message {
+        padding-left: 50px;
+        padding-right: 50px; } }
+  /* line 185, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.full .error,
+  .object.full .error input,
+  .object.full .error textarea,
+  .object.full .error .richtext {
+    background-color: #feedee; }
+  /* line 191, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.stream-field {
+    padding-left: 0;
+    padding-right: 0;
+    /* Undo column widths usually applied to the contents of a field panel */ }
+    /* line 195, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object.stream-field.required .field > label:after {
+      display: none; }
+    /* line 200, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object.stream-field > fieldset {
+      width: 100%;
+      max-width: none; }
+    /* line 205, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object.stream-field .block_field > .field-content {
+      width: 100%;
+      display: block; }
+  /* line 213, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.publishing h2:before {
+    content: "7";
+    font-size: 1.8rem;
+    line-height: 1.4em;
+    width: 1.4em; }
+  /* line 222, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object .multiple {
+    padding: 4.5em 0 0 0; }
+    /* line 225, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object .multiple fieldset {
+      padding-top: 0;
+      padding-bottom: 0; }
+  /* line 231, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object .fields {
+    max-width: 100%; }
+  /* line 236, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object .fields .multiple {
+    padding-top: 0; }
+  /* line 240, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object .add {
+    padding-top: 1em; }
+  /* line 244, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.empty {
+    border-bottom: 1px solid white;
+    /* wrapper around add button for mutliple objects. Default version is wordless plus button for contracted groups of fields */ }
+    /* line 247, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object.empty > h2 {
+      margin: 0 0;
+      border-bottom: 1px solid white; }
+    /* line 253, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object.empty .add {
+      position: relative;
+      z-index: 2;
+      top: 0px;
+      left: 0px;
+      width: 3.3em;
+      padding: 0;
+      margin: 0 0 0 -20px;
+      cursor: pointer; }
+      /* line 34, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+      body.ready .object.empty .add {
+        -webkit-transition: background-color 0.2s ease;
+        -moz-transition: background-color 0.2s ease;
+        -o-transition: background-color 0.2s ease;
+        transition: background-color 0.2s ease; }
+      /* line 264, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+      .object.empty .add .button {
+        -webkit-border-radius: 0;
+        border-radius: 0;
+        overflow: visible;
+        background-color: #fcf2f2;
+        font-size: 0;
+        /* helps fake the effect of t.ext-replace class, which can't be used here. */
+        width: 2em; }
+        /* line 271, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+        .object.empty .add .button:before {
+          position: relative;
+          padding: 0;
+          line-height: 1.8em;
+          /* specific height required as parent 'a' has no height */
+          font-size: 1.4rem;
+          width: 1.8em;
+          background-color: #f37e77; }
+        /* line 280, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+        .object.empty .add .button:hover:before {
+          background-color: #f16860; }
+    /* line 286, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object.empty .multiple {
+      padding: 0; }
+  /* line 291, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.collapsible {
+    /* li.collapsed gets its height from the fieldset only, which is now hidden
+        and h2 has position:absolute which doesn't add to it either, so it would be 0 without this */
+    min-height: 41px; }
+    /* line 296, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object.collapsible h2 {
+      cursor: pointer; }
+    /* line 299, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object.collapsible h2:before {
+      content: '6';
+      text-shadow: none;
+      line-height: 40px;
+      padding-right: 1px;
+      opacity: 1;
+      color: #666;
+      background-color: transparent; }
+      /* line 34, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/mixins.scss */
+      body.ready .object.collapsible h2:before {
+        -webkit-transition: background-color 0.2s ease, color 0.2s ease;
+        -moz-transition: background-color 0.2s ease, color 0.2s ease;
+        -o-transition: background-color 0.2s ease, color 0.2s ease;
+        transition: background-color 0.2s ease, color 0.2s ease; }
+    /* line 312, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object.collapsible.collapsed {
+      background: #fff; }
+      /* line 314, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+      .object.collapsible.collapsed h2 {
+        -webkit-box-shadow: none;
+        box-shadow: none; }
+      /* line 317, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+      .object.collapsible.collapsed h2:before {
+        content: '5';
+        color: #fff;
+        background-color: #43b1b0; }
+      /* line 322, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+      .object.collapsible.collapsed h2:hover:before {
+        background-color: #358c8b; }
+
+/* Custom styles that make some fields look more important */
+/* line 332, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+.full input,
+.full textarea,
+.full .richtext {
+  padding-left: 20px;
+  padding-right: 20px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  font-size: 1.2em;
+  line-height: 1.6em; }
+  @media screen and (min-width: 50em) {
+    /* line 332, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .full input,
+    .full textarea,
+    .full .richtext {
+      padding-left: 50px;
+      padding-right: 50px; } }
+
+/* line 343, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+.title input,
+.title textarea,
+.title .richtext {
+  font-size: 2em;
+  font-family: Bitter, Georgia, serif; }
+
+/* Footer control bar for perfoming actions on the page */
+/* line 350, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+footer .preview button, footer .preview .button {
+  background-color: gray;
+  border-color: gray; }
+  /* line 354, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  footer .preview button:hover, footer .preview .button:hover {
+    background-color: #666666;
+    border-color: #666666; }
+
+/* line 360, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+footer .preview .dropdown input[type=button], footer .preview .dropdown input[type=submit], footer .preview .dropdown button, footer .preview .dropdown .button {
+  background-color: gray;
+  border-color: gray; }
+  /* line 364, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  footer .preview .dropdown input[type=button]:hover, footer .preview .dropdown input[type=submit]:hover, footer .preview .dropdown button:hover, footer .preview .dropdown .button:hover {
+    background-color: #666666;
+    border-color: #666666; }
+
+/* line 369, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+footer .preview .dropdown ul, footer .preview .dropdown .dropdown-toggle {
+  background-color: gray; }
+
+/* line 373, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+footer .preview .dropdown .dropdown-toggle:hover,
+footer .preview .dropdown.open > .button + .dropdown-toggle {
+  background-color: #666666; }
+
+@media screen and (min-width: 50em) {
+  /* line 380, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .page-editor .breadcrumb {
+    margin-top: -1.8em; }
+  /* line 384, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object fieldset {
+    max-width: 1024px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline;
+    float: left;
+    width: 83.33333%;
+    padding-right: 1.5%;
+    padding-left: 1.5%;
+    padding-left: 0;
+    padding-right: 0; }
+    /* line 390, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+    .object fieldset fieldset {
+      width: 100%; }
+  /* line 395, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object .object-help {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline;
+    float: left;
+    width: 16.66667%;
+    padding-right: 1.5%;
+    padding-left: 1.5%;
+    display: block;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 1em;
+    padding-right: 1.5%;
+    float: right;
+    margin-top: 4em;
+    opacity: 0;
+    padding-left: 3em; }
+  /* line 411, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.stream-field:hover .object-help,
+  .object.stream-field .object-help {
+    opacity: 0; }
+  /* line 417, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.full fieldset {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline;
+    float: left;
+    width: 91.66667%;
+    padding-right: 1.5%;
+    padding-left: 1.5%;
+    margin-left: -51px;
+    padding: 3.2em 0 0 0; }
+  /* line 422, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.full input, .object.full textarea, .object.full .richtext {
+    border-width: 0 1px; }
+  /* line 425, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.full .field {
+    padding: 0; }
+  /* line 428, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.full .field-content {
+    display: block;
+    float: none;
+    width: auto;
+    padding: inherit; }
+  /* line 435, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object .multiple {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline;
+    float: left;
+    width: 83.33333%;
+    padding-right: 1.5%;
+    padding-left: 1.5%;
+    padding-left: 0;
+    padding-right: 0; }
+  /* line 441, /srv/wagtail/wagtail/wagtailadmin/static_src/wagtailadmin/scss/layouts/page-editor.scss */
+  .object.empty .add {
+    margin: 0 0 0 -50px; } }
